@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/login.css">
+    <title>Login</title>
+</head>
+<body>
+    <h2>Login</h2>
+    <form id="loginForm">
+        <div>
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" required>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit">Login</button>
+    </form>
+    <div id="errorDiv" style="color: red;"></div> <!-- Div para exibir erros do backend -->
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            var email = document.getElementById('email').value;
+            var password = document.getElementById('password').value;
+
+            axios.post('URL_DO_SEU_ENDPOINT_DE_LOGIN', {
+                email: email,
+                password: password
+            })
+            .then(function (response) {
+                // Manipular a resposta do servidor após o login ser bem sucedido
+                console.log(response.data);
+            })
+            .catch(function (error) {
+                // Manipular erros de login
+                console.error('Erro ao fazer login:', error);
+                document.getElementById('errorDiv').innerText = 'Erro ao fazer registro: ' + error.response.data.msg;
+            });
+        });
+    </script>
+</body>
+</html>

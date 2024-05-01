@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/signup.css">
+    <title>Registro</title>
+</head>
+<body>
+    <h2>Registro</h2>
+    <form id="registrationForm">
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div>
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" required>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit">Registrar</button>
+    </form>
+    <div id="resultDiv"></div> <!-- Div para exibir erros do backend -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        document.getElementById('registrationForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            var username = document.getElementById('username').value;
+            var email = document.getElementById('email').value;
+            var password = document.getElementById('password').value;
+            var resultDiv = document.querySelector('#resultDiv')
+
+            axios.post('/signup', {
+                username: username,
+                email: email,
+                password: password
+            })
+            .then(function (response) {
+                // Manipular a resposta do servidor após o registro ser bem sucedido
+                console.log(response.data.msg);
+                resultDiv.style.color = 'green'
+                resultDiv.innerText = response.data.msg
+            })
+            .catch(function (error) {
+                // Manipular erros de registro
+                console.error('Erro ao fazer registro:', error);
+                console.log(error.response.data.msg)
+                resultDiv.style.color = 'red'
+                resultDiv.innerText = 'Erro ao fazer registro: ' + error.response.data.msg;
+            });
+        });
+    </script>
+</body>
+</html>
