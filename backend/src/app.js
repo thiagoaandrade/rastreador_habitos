@@ -3,7 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const cookieParser = require('cookie-parser')
 const authRouter = require('./routes/authRoute')
-const { requireAuth, checkUser } = require('./middlewares/authMiddleware')
+const { requireAuth } = require('./middlewares/authMiddleware')
 const path = require('path')
 
 const app = express();
@@ -18,7 +18,7 @@ app.use(express.static('./public'))
 app.use(cookieParser())
 
 // Routes
-app.get('*', checkUser)
+// app.get('*', checkUser)
 app.use(authRouter) // Rotas de autenticação
 
 app.get('/', (req, res) => {

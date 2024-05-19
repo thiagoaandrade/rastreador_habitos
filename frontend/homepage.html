@@ -15,9 +15,9 @@
                 <li><a href="#">About</a></li>
                 <li><a href="#">Services</a></li>
                 <li><a href="#">Contact</a></li>
-                <li><a class="auth-button" href="/login">Login</a></li>
+                <!-- <li><a class="auth-button" href="/login">Login</a></li>
                 <li><a class="auth-button" href="/signup">Signup</a></li>
-                <li><a class="auth-button" href="/logout">log out</a></li>
+                <li><a class="auth-button" href="/logout">log out</a></li> -->
             </ul>
         </nav>
     </header>
@@ -50,8 +50,32 @@
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        const nav = document.querySelector('ul')
-        console.log(nav)
+        const listaNav = document.querySelector('ul')
+        const header = document.querySelector('header')
+
+
+
+        axios.get('/authverify').then((response) => {
+            // Usuário logado
+            const logout = document.createElement('li')
+            const welcomeMsg = document.createElement('h2')
+
+            logout.innerHTML = `<a class="auth-button" href="/logout">log out</a>`
+
+            listaNav.appendChild(logout)
+            // console.log(response.data.logged)
+        }).catch((error) => {
+            // Usuário não logado
+            const login = document.createElement('li')
+            const signup = document.createElement('li')
+
+            login.innerHTML = `<a class="auth-button" href="/login">Login</a>`
+            signup.innerHTML = `<a class="auth-button" href="/signup">Signup</a>`
+
+            listaNav.appendChild(login)
+            listaNav.appendChild(signup)
+            // console.log(error.response.data.logged)
+        })
     </script>
 </body>
 </html>
