@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +19,7 @@
         </div>
         <button type="submit">Login</button>
     </form>
-    <div id="errorDiv" style="color: red;"></div> <!-- Div para exibir erros do backend -->
+    <div id="resultDiv"></div> <!-- Div para exibir erros do backend -->
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
@@ -28,19 +28,24 @@
             
             var email = document.getElementById('email').value;
             var password = document.getElementById('password').value;
+            var resultDiv = document.querySelector('#resultDiv')
 
-            axios.post('URL_DO_SEU_ENDPOINT_DE_LOGIN', {
+            axios.post('/login', {
                 email: email,
                 password: password
             })
             .then(function (response) {
                 // Manipular a resposta do servidor após o login ser bem sucedido
-                console.log(response.data);
+                console.log(response.data.msg);
+                resultDiv.style.color = 'green'
+                resultDiv.innerText = response.data.msg
+                location.assign('/')
             })
             .catch(function (error) {
                 // Manipular erros de login
                 console.error('Erro ao fazer login:', error);
-                document.getElementById('errorDiv').innerText = 'Erro ao fazer registro: ' + error.response.data.msg;
+                resultDiv.style.color = 'red'
+                resultDiv.innerText = 'Erro ao fazer login: ' + error.response.data.msg;
             });
         });
     </script>

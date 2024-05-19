@@ -24,6 +24,7 @@ const passwordValidLength = (req,res,next) => {
     next()
 }
 
+// Valida se o email segue o padrão fornecido
 const emailValidator = (req,res,next) => {
     req.body.email = req.body.email.toLowerCase()
     // Definindo o padrão aceito para o email _@_._
@@ -35,6 +36,7 @@ const emailValidator = (req,res,next) => {
     next()
 }
 
+// Criptografa a senha
 const hashingPassword = async (req,res,next) => {
     try {
         const salt = await bcrypt.genSalt(10)
@@ -43,10 +45,6 @@ const hashingPassword = async (req,res,next) => {
     } catch (error) {
         console.log(error)
     }
-}
-
-const userExist = (req,res,next) => {
-    
 }
 
 module.exports = {

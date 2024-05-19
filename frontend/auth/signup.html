@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -45,6 +45,7 @@
                 console.log(response.data.msg);
                 resultDiv.style.color = 'green'
                 resultDiv.innerText = response.data.msg
+                location.assign('/')
             })
             .catch(function (error) {
                 // Manipular erros de registro

@@ -3,7 +3,8 @@ require('dotenv').config();
 const express = require('express');
 const cookieParser = require('cookie-parser')
 const authRouter = require('./routes/authRoute')
-
+const { requireAuth, checkUser } = require('./middlewares/authMiddleware')
+const path = require('path')
 
 const app = express();
 
@@ -17,22 +18,15 @@ app.use(express.static('./public'))
 app.use(cookieParser())
 
 // Routes
+app.get('*', checkUser)
 app.use(authRouter) // Rotas de autenticação
 
 app.get('/', (req, res) => {
-    res.status(200).send('<h1>Welcome</h1>')
+    res.status(200).sendFile(path.resolve('../frontend/homepage.html'))
 });
 
-app.get('/set-cookies', (req,res) => {
-    res.cookie('Verify', true)
-    res.cookie('Admin', false, {})
-
-    res.send('You got the cookie')
-})
-
-app.get('/get-cookies', (req,res) => {
-    console.log(req.cookies)
-    res.send(req.cookies)
+app.get('/usuario', requireAuth, (req,res) => {
+    res.send('<h1>Usuário</h1>')
 })
 
 app.listen(PORT, () => {

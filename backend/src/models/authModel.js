@@ -6,12 +6,22 @@ const createUser = async (email, username, password) => {
     return newUser.rows[0]
 }
 
-const getUser = async (email, username, password) => {
-    console.log(username)
+const getUserByEmail = async (email) => {
+    const query = "SELECT * FROM users WHERE email = $1"
+    const values = [email]
+    const user = await connection.query(query, values)
+    return user.rows[0]
 }
 
-getUser()
+const getUserById = async (id) => {
+    const query = "SELECT * FROM users WHERE id = $1"
+    const values = [id]
+    const user = await connection.query(query,values)
+    return user.rows[0]
+}
 
 module.exports = {
-    createUser
+    createUser,
+    getUserByEmail,
+    getUserById
 }
