@@ -39,7 +39,7 @@ const signup_post = async (req,res) => {
         const newUser = await auth.createUser( email, username, password ) 
         // Cria jwt
         const token = utils.createToken( newUser, maxAge ) 
-        res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000})
+        res.cookie('jwt', token, {httpOnly: true, maxAge: maxAge * 1000})
         return res.status(201).json({ msg: "User created succcessfully"})
 
     } catch (error) {
@@ -53,17 +53,10 @@ const logout_get = (req,res) => {
     res.redirect('/')
 }
 
-const authVerify = (req,res) => {
-    const token = req.cookies.jwt
-    
-    if(token){
-        jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
-            if(err){
-                console.log(err)
-                return res.status(400).json({logged:false})
-            }
-            return res.status(200).json({logged:true, data: decoded})
-        })
+// Rota para verificar se o usuário esta logado
+const authVerify_get = (req,res) => {
+    if(req.user){
+        return res.status(200).json({logged:true, data: {username: req.user.username}})
     }else{
         return res.status(400).json({logged:false})
     }
@@ -75,5 +68,5 @@ module.exports = {
     login_post,
     signup_post,
     logout_get,
-    authVerify
+    authVerify_get
 }

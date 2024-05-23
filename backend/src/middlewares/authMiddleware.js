@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 const auth = require('../models/authModel')
 
-
+// Permitir acesso se o usuário tiver realizado um login válido
 const requireAuth = (req,res,next) => {
     const token = req.cookies.jwt
     // Verifica se existe o jwt e valida
@@ -11,7 +11,6 @@ const requireAuth = (req,res,next) => {
                 console.log(err.message)
                 return res.redirect('/login')
             }
-            console.log(decodedToken)
             return next()
         })
     }else{
@@ -19,25 +18,25 @@ const requireAuth = (req,res,next) => {
     }
 }
 
-// const checkUser = (req,res,next) => {
-//     const token = req.cookies.jwt
+// Checa se o usuário está logado e guarda as informações do usuário na variável req.user
+const checkUser = (req,res,next) => {
+    const token = req.cookies.jwt
 
-//     if(token){
-//         jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
-//             if(err){
-//                 console.log(err)
-//                 res.locals.user = null
-//                 return next()
-//             }
-//             console.log(decodedToken)
-//             let user = await auth.getUserById(decodedToken.userId)
-//             res.locals.user = user
-//             next()
-//         })
-//     }else{
-//         res.locals.user = null
-//         next()
-//     }
-// }
+    if(token){
+        jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
+            if(err){
+                console.log(err)
+                req.user = null
+                return next()
+            }
+            let user = await auth.getUserById(decodedToken.id)
+            req.user = user
+            next()
+        })
+    }else{
+        req.user = null
+        next()
+    }
+}
 
-module.exports = { requireAuth }
+module.exports = { requireAuth, checkUser }

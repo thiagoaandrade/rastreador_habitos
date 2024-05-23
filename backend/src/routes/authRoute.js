@@ -13,6 +13,6 @@ router.post('/signup',[
 router.get('/login', authController.login_get)
 router.post('/login', authController.login_post)
 router.get('/logout', authController.logout_get)
-router.get('/authverify', authController.authVerify )
+router.get('/authverify', authController.authVerify_get )
 
 module.exports = router

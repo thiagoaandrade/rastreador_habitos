@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 
 // Função que cria o JWT
 const createToken = (user, maxAge) => {
-    return jwt.sign({id:user.id, username:user.username}, process.env.JWT_SECRET, {
+    return jwt.sign({id:user.id}, process.env.JWT_SECRET, {
         expiresIn: maxAge
     })
 }

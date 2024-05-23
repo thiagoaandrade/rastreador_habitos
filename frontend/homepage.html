@@ -53,9 +53,8 @@
         const listaNav = document.querySelector('ul')
         const header = document.querySelector('header')
 
-
-
-        axios.get('/authverify').then((response) => {
+        axios.get('/authverify')
+        .then((response) => {
             // Usuário logado
             const logout = document.createElement('li')
             const welcomeMsg = document.createElement('h2')
@@ -63,8 +62,8 @@
             logout.innerHTML = `<a class="auth-button" href="/logout">log out</a>`
 
             listaNav.appendChild(logout)
-            // console.log(response.data.logged)
-        }).catch((error) => {
+        })
+        .catch((error) => {
             // Usuário não logado
             const login = document.createElement('li')
             const signup = document.createElement('li')
@@ -74,7 +73,6 @@
 
             listaNav.appendChild(login)
             listaNav.appendChild(signup)
-            // console.log(error.response.data.logged)
         })
     </script>
 </body>
